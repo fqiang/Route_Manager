@@ -1,13 +1,13 @@
 # Route Manager Build Report
 
 ## Introduction
-A python code that can manage your mac's routing table to let your mac don't use VPN for some website
+A Python script allows you to exclude specific websites from using a VPN on macOS by modifying the routing table.
 
 ## Installation
-Just download the wifi.app package in your mac then double click it to run.
+Simply download the wifi.app package to your Mac and double-click it to run.
 
 ## Motivation
-The reason why I want to write this route manager tool is that one day, I was searching for imformations on google to do my homework, so I use a VPN. However, after I finish my schoolwork, the network speed to reach to my schoolpal was too slow. So, I was wondering that if there's a tool that can automatically set mycomputer's network route to avoid the VPN when I'm entering the website thatdon't need. I searched on the internet, however I didn't saw any tools thatcan satisfy my requirement. So, I decided to write a simple program that can do this thing for me.
+The reason why I wanted to write this route manager tool is that one day, while searching for information on Google to do my homework, I used a VPN. However, after I finished my schoolwork, the network speed to reach my school portal was too slow. I wondered if there was a tool that could automatically set my computer's network route to avoid using the VPN when accessing websites that didn’t require it. I searched on the internet, but I didn’t find any tools that could satisfy my requirements. So, I decided to write a simple program to do this for me.
 
 
 ## How the python code works?
@@ -16,7 +16,7 @@ In mac zsh terminal, users can add or delete a network route like this.
 ```zsh
 sudo route -n add/delete <target IP> <Gateway>
 ```
-Then, the route added by the tool must has the Gateway which is the non-VPN default gateway.
+Then, the route added by the tool must have the Gateway which is the non-VPN default gateway.
 
 To check the default gate way and which Network Port is the default wireless Gateway on. Can use this on zsh
 
@@ -61,7 +61,7 @@ The RouteManagerApp class is the main class of the application.
 The __init__ method initializes the application, setting up the GUI and loading routing information.
 
 #### Initialization and Configuration
-In order to change the route automatically, the code need to make a json file to store the ips. 
+In order to change the route automatically, the code needs to make a json file to store the ips. 
 ```python
 # 定义 JSON 文件路径
         self.json_file = os.path.expanduser("~/routes.json")
@@ -249,7 +249,7 @@ I use thread to run the monitor_wifi_changes method. This method is responsible 
 
 ### learning about routing table usage in computer networks
 
-The routing table may looks like this on mac by using the command
+The routing table may look like this on mac by using the command
 ```zsh
 netstat -rn
 ```
