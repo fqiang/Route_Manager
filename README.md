@@ -1,5 +1,7 @@
-# Route Manager Build Report
+# Route Manager
 
+## Platform
+Can be used on macOS(haven't tested on Intel Chips)
 ## Introduction
 A Python script allows you to exclude specific websites from using a VPN on macOS by modifying the routing table.
 
