@@ -54,7 +54,7 @@ import os
 class RouteManagerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Route Manager")  # 设置窗口标题
+        self.root.title("Route Manager")  # set title
 ```
 
 The RouteManagerApp class is the main class of the application.
@@ -63,7 +63,7 @@ The __init__ method initializes the application, setting up the GUI and loading 
 #### Initialization and Configuration
 In order to change the route automatically, the code needs to make a json file to store the ips. 
 ```python
-# 定义 JSON 文件路径
+# define JSON file path
         self.json_file = os.path.expanduser("~/routes.json")
 ```
 Defines the path to the JSON file where routing information is stored.
@@ -76,20 +76,19 @@ Retrieves the gateway for the en0 network interface using the get_gateway_by_int
 
 #### build a variable record the sudo password
 ```Python
-        # 存储密码
         self.sudo_password = None
 ```
 Stores the sudo password required for executing privileged commands.
 
 #### configure GUI
 ```Python
-        # 创建输入框和按钮的界面部分
+        # create input frame and button
         self.create_input_frame()
-        # 创建显示 en0 网关的只读框
+        # create the read-only frame to display the en0's gateway
         self.create_gateway_frame()
-        # 创建显示路由的界面部分
+        # create the part to display routes
         self.create_route_frame()
-        # 配置权重，使路由列表框和滚动条能够随窗口大小调整
+        # let the window can adjust size
         self.root.grid_rowconfigure(2, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
         self.route_frame.grid_rowconfigure(0, weight=1)
@@ -120,14 +119,14 @@ Make the input frame(input url) and read-only frame(display gateway) and Configu
         self.frame = tk.Frame(self.root)
         self.frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        tk.Label(self.frame, text="输入网址或IP（用;隔开）").grid(row=0, column=0, padx=5)
-        self.ip_entry = tk.Entry(self.frame, width=50)  # 输入网址或IP
+        tk.Label(self.frame, text="input url or IP(use ; to separate)").grid(row=0, column=0, padx=5)
+        self.ip_entry = tk.Entry(self.frame, width=50)  
         self.ip_entry.grid(row=0, column=1, padx=5)
 
-        self.add_button = tk.Button(self.frame, text="添加", command=self.add_route)  # 添加按钮
+        self.add_button = tk.Button(self.frame, text="Add", command=self.add_route)  # the "add" button
         self.add_button.grid(row=0, column=2, padx=5)
 
-        self.delete_button = tk.Button(self.frame, text="删除", command=self.delete_route)  # 删除按钮
+        self.delete_button = tk.Button(self.frame, text="Delete", command=self.delete_route)  # the "delete" button
         self.delete_button.grid(row=0, column=3, padx=5)
 ```
 This create_input_frame method creates a frame for user input, including a label, an entry field for IP addresses or URLs, and buttons for adding and deleting routes by using the tkinter libaray.
@@ -138,10 +137,10 @@ This create_input_frame method creates a frame for user input, including a label
         self.gateway_frame = tk.Frame(self.root)
         self.gateway_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-        tk.Label(self.gateway_frame, text="en0 网关").grid(row=0, column=0, padx=5)
-        self.gateway_entry = tk.Entry(self.gateway_frame, width=50)  # 显示 en0 网关
-        self.gateway_entry.insert(0, self.en0_gateway)  # 填充 en0 网关
-        self.gateway_entry.config(state='readonly')  # 设置为只读
+        tk.Label(self.gateway_frame, text="en0 gateway").grid(row=0, column=0, padx=5)
+        self.gateway_entry = tk.Entry(self.gateway_frame, width=50)
+        self.gateway_entry.insert(0, self.en0_gateway)
+        self.gateway_entry.config(state='readonly') 
         self.gateway_entry.grid(row=0, column=1, padx=5)
 ```
 Creates a frame to display the gateway for the en0 interface. The entry field is set to read-only to prevent user modification.
@@ -152,10 +151,10 @@ Creates a frame to display the gateway for the en0 interface. The entry field is
         self.route_frame = tk.Frame(self.root)
         self.route_frame.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.route_listbox = tk.Listbox(self.route_frame, width=80, height=20)  # 路由列表
+        self.route_listbox = tk.Listbox(self.route_frame, width=80, height=20)  # display routing table
         self.route_listbox.grid(row=0, column=0, sticky="nsew")
 
-        self.scrollbar = tk.Scrollbar(self.route_frame, command=self.route_listbox.yview)  # 滚动条
+        self.scrollbar = tk.Scrollbar(self.route_frame, command=self.route_listbox.yview)
         self.scrollbar.grid(row=0, column=1, sticky="ns")
 
         self.route_listbox.config(yscrollcommand=self.scrollbar.set)
@@ -207,13 +206,13 @@ Saves the current routing information to the JSON file.
                 try:
                     self.execute_sudo_command(f"route delete {route}")
                 except subprocess.CalledProcessError as e:
-                    messagebox.showerror("错误", f"删除旧路由失败: {route} ({e})")
+                    messagebox.showerror("Error", f"failed to delete the old route: {route} ({e})")
         self.routes["gateway"] = self.en0_gateway
         for route in self.routes["routes"]:
             try:
                 self.execute_sudo_command(f"route -n add {route} {self.en0_gateway}")
             except subprocess.CalledProcessError as e:
-                messagebox.showerror("错误", f"添加新路由失败: {route} ({e})")
+                messagebox.showerror("Error", f"failed to add a new route: {route} ({e})")
         self.save_routes()
         self.update_route_display()
 ```
@@ -221,7 +220,7 @@ Re-adds all routes with the new gateway if the gateway has changed.
 ##### update_route_display
 ```Python
     def update_route_display(self):
-        self.route_listbox.delete(0, tk.END)  # 清空当前显示
+        self.route_listbox.delete(0, tk.END) 
         try:
             output = subprocess.check_output(["netstat", "-rn"]).decode("utf-8")
             for line in output.splitlines():
@@ -231,7 +230,7 @@ Re-adds all routes with the new gateway if the gateway has changed.
                 if len(fields) > 1 and fields[1] == self.en0_gateway:
                     self.route_listbox.insert(tk.END, line)
         except subprocess.CalledProcessError as e:
-            messagebox.showerror("错误", f"获取路由表失败: {e}")
+            messagebox.showerror("Error", f"failed to get the routing table: {e}")
 ```
 Updates the listbox with the current routing table by querying the system's routing table using netstat.
 
@@ -241,7 +240,7 @@ if __name__ == "__main__":
     root = tk.Tk()  # creates the main window object root using tk.Tk()
     app = RouteManagerApp(root)  # Initialize the application
     threading.Thread(target=app.monitor_wifi_changes, args=(), daemon=True).start()
-    root.mainloop()  # 启动事件循环，显示窗口
+    root.mainloop()  # start the event loop and display the window
 ```
 I use thread to run the monitor_wifi_changes method. This method is responsible for monitoring changes in the WiFi network (such as changes in the gateway) and updating the routing table accordingly
 
