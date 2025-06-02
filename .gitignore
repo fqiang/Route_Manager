@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+.env/
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Dependency lock files
+uv.lock
+pipfile.lock
+
+# App-specific artifacts
+__pycache__/
+*.spec
+
+# IDE specific
+.vscode/
+.idea/
+
+# macOS specific
+.DS_Store
